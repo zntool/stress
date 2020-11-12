@@ -43,7 +43,9 @@ class StressService
         ];
         $promises = [];
         foreach ($queryCollection as $i => $testEntity) {
-            $promises['query_' . $i] = $client->getAsync($testEntity->url, $options);
+            $clientMethodName = $testEntity->method . 'Async';
+            $async = $client->$clientMethodName($testEntity->url, $options);
+            $promises['query_' . $i] = $async;
         }
 
         $runtimeCollection = new Collection();

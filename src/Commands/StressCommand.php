@@ -26,32 +26,17 @@ class StressCommand extends Command
     {
         $output->writeln(['<fg=white># Stress test</>']);
 
-        $profileEntity = new ProfileEntity(20, 5);
-//        $profileEntity->synchQueryCount = 20;
-//        $profileEntity->ageCount = 5;
-        $baseUrl = 'http://elumiti.cd/api.php/v1/';
-        $profileEntity->setQueryCollection([
-            $baseUrl . 'language',
-            $baseUrl . 'geo-locality',
-            $baseUrl . 'geo-region',
-            $baseUrl . 'geo-province',
-            $baseUrl . 'feedback-category',
-            $baseUrl . 'tag',
-            $baseUrl . 'news',
-            $baseUrl . 'news-feed',
-            $baseUrl . 'news-category',
-            $baseUrl . 'community-category',
-        ]);
+        $profileEntity = include __DIR__ . '/../Domain/example/scenario.php';
 
         /** @var TestEntity[] $queryCollection */
         $queryCollection = new Collection;
-
         for ($i = 0; $i < $profileEntity->getSynchQueryCount(); $i++) {
-            $testEntity = new TestEntity;
-            $id = $i + 1;
             $index = $i % $profileEntity->getQueryCollectionCount();
-            $url = $profileEntity->getQueryByIndex($index);
-            $testEntity->url = $url /*. '/' . $id*/;
+            $query = $profileEntity->getQueryByIndex($index);
+            $testEntity = new TestEntity;
+            $testEntity->url = $query['url'];
+            $testEntity->options = $query['options'] ?: [];
+            $testEntity->method = $query['method'] ?: 'get';
             $queryCollection->add($testEntity);
         }
         

@@ -6,5 +6,7 @@ class TestEntity
 {
 
     public $url;
+    public $method;
+    public $options;
 
 }
