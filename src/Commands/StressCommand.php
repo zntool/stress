@@ -30,7 +30,11 @@ class StressCommand extends Command
 //        $baseUrl = $_ENV['API_URL'];
 //        $url = $baseUrl . '/php/v1/article';
 
-        $url = 'http://elumiti.cd/api.php/v1/language';
+        $urls = [
+            'http://elumiti.cd/api.php/v1/language',
+            'http://elumiti.cd/api.php/v1/geo-locality',
+        ];
+        //$url = ;
 
         /** @var TestEntity[] $queryCollection */
         $queryCollection = new Collection;
@@ -38,9 +42,13 @@ class StressCommand extends Command
         for ($i = 0; $i < $synchQueryCount; $i++) {
             $testEntity = new TestEntity;
             $id = $i + 1;
+            $index = $i % count($urls);
+            $url = $urls[$index];
             $testEntity->url = $url /*. '/' . $id*/;
             $queryCollection->add($testEntity);
         }
+        
+        dd($queryCollection);
 
         $resultEntity = $this->stressService->test($queryCollection, $ageCount);
         $queryRuntime = $resultEntity->runtime / $resultEntity->queryCount;
