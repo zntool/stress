@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnTool\Dev\Runtime\Domain\Helpers\Benchmark;
 use ZnTool\Stress\Domain\Entities\ResultEntity;
+use ZnTool\Stress\Domain\Libs\Runtime;
 use function GuzzleHttp\Promise\settle;
 
 class StressService
@@ -40,21 +41,30 @@ class StressService
                 'Accept' => 'application/json',
             ],*/
         ];
-        $commonRuntime = 0;
         $promises = [];
         foreach ($queryCollection as $i => $testEntity) {
             $promises['query_' . $i] = $client->getAsync($testEntity->url, $options);
         }
-        Benchmark::begin('stress_test');
+
+        $runtimeCollection = new Collection();
+        $runtime = new Runtime();
+        $runtime->start();
         echo "send {$queryCollection->count()} queries ... ";
         //$results = unwrap($promises); // Дождаться завершения всех запросов. Выдает исключение ConnectException если какой-либо из запросов не выполнен
         $results = settle($promises)->wait(); // Дождемся завершения запросов, даже если некоторые из них завершатся неудачно
-        echo "OK\n";
-        Benchmark::end('stress_test');
-        $runtime = Benchmark::allFlat()['stress_test'];
-        $commonRuntime = $commonRuntime + $runtime;
+        $runtime->stop();
+        $runtimeCollection->add($runtime);
+        $runTimePerQuery = $runtime->getResult() / $queryCollection->count();
+        $runTimePerQuery = round($runTimePerQuery, 4);
+        echo "OK ($runTimePerQuery)\n";
+
+        $localRuntime = 0;
+        foreach ($runtimeCollection as $rt) {
+            $localRuntime = $localRuntime + $rt->getResult();
+        }
+
         $this->checkErrors($results);
-        return $commonRuntime;
+        return $localRuntime;
     }
 
     private function checkErrors(array $results)
