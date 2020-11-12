@@ -30,7 +30,7 @@ class StressCommand extends Command
 //        $baseUrl = $_ENV['API_URL'];
 //        $url = $baseUrl . '/php/v1/article';
 
-        $url = 'https://elumiti.citorleu.kz/api/v1/language';
+        $url = 'http://elumiti.cd/api.php/v1/language';
 
         /** @var TestEntity[] $queryCollection */
         $queryCollection = new Collection;

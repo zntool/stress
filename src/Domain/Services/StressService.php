@@ -17,6 +17,7 @@ class StressService
         $totalQueryCount = 0;
         $commonRuntime = 0;
         $resultEntity = new ResultEntity;
+        
         for ($i = 0; $i < $ageCount; $i++) {
             $commonRuntime += $this->testAge($queryCollection);
             $totalQueryCount += count($queryCollection);
@@ -40,8 +41,10 @@ class StressService
             $promises['query_' . $i] = $client->getAsync($testEntity->url, $options);
         }
         Benchmark::begin('stress_test');
+        echo "send {$queryCollection->count()} queries ... ";
         //$results = unwrap($promises); // Дождаться завершения всех запросов. Выдает исключение ConnectException если какой-либо из запросов не выполнен
         $results = settle($promises)->wait(); // Дождемся завершения запросов, даже если некоторые из них завершатся неудачно
+        echo "OK\n";
         Benchmark::end('stress_test');
         $runtime = Benchmark::allFlat()['stress_test'];
         $commonRuntime = $commonRuntime + $runtime;
