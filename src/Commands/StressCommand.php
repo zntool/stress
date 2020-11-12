@@ -3,6 +3,7 @@
 namespace ZnTool\Stress\Commands;
 
 use Illuminate\Support\Collection;
+use ZnTool\Stress\Domain\Entities\ProfileEntity;
 use ZnTool\Stress\Domain\Entities\TestEntity;
 use ZnTool\Stress\Domain\Services\StressService;
 use Symfony\Component\Console\Command\Command;
@@ -25,32 +26,38 @@ class StressCommand extends Command
     {
         $output->writeln(['<fg=white># Stress test</>']);
 
-        $synchQueryCount = 20; // кол-во параллельных запросов
-        $ageCount = 5; // кол-во эпох теста
-//        $baseUrl = $_ENV['API_URL'];
-//        $url = $baseUrl . '/php/v1/article';
-
-        $urls = [
-            'http://elumiti.cd/api.php/v1/language',
-            'http://elumiti.cd/api.php/v1/geo-locality',
-        ];
-        //$url = ;
+        $profileEntity = new ProfileEntity(20, 5);
+//        $profileEntity->synchQueryCount = 20;
+//        $profileEntity->ageCount = 5;
+        $baseUrl = 'http://elumiti.cd/api.php/v1/';
+        $profileEntity->setQueryCollection([
+            $baseUrl . 'language',
+            $baseUrl . 'geo-locality',
+            $baseUrl . 'geo-region',
+            $baseUrl . 'geo-province',
+            $baseUrl . 'feedback-category',
+            $baseUrl . 'tag',
+            $baseUrl . 'news',
+            $baseUrl . 'news-feed',
+            $baseUrl . 'news-category',
+            $baseUrl . 'community-category',
+        ]);
 
         /** @var TestEntity[] $queryCollection */
         $queryCollection = new Collection;
 
-        for ($i = 0; $i < $synchQueryCount; $i++) {
+        for ($i = 0; $i < $profileEntity->getSynchQueryCount(); $i++) {
             $testEntity = new TestEntity;
             $id = $i + 1;
-            $index = $i % count($urls);
-            $url = $urls[$index];
+            $index = $i % $profileEntity->getQueryCollectionCount();
+            $url = $profileEntity->getQueryByIndex($index);
             $testEntity->url = $url /*. '/' . $id*/;
             $queryCollection->add($testEntity);
         }
         
-        dd($queryCollection);
+//        dd($queryCollection);
 
-        $resultEntity = $this->stressService->test($queryCollection, $ageCount);
+        $resultEntity = $this->stressService->test($queryCollection, $profileEntity->getAgeCount());
         $queryRuntime = $resultEntity->runtime / $resultEntity->queryCount;
 
         $output->writeln([

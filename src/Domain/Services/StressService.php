@@ -17,6 +17,11 @@ class StressService
         $totalQueryCount = 0;
         $commonRuntime = 0;
         $resultEntity = new ResultEntity;
+
+        echo "All queries\n";
+        foreach ($queryCollection as $i => $testEntity) {
+            echo "   {$testEntity->url}\n";
+        }
         
         for ($i = 0; $i < $ageCount; $i++) {
             $commonRuntime += $this->testAge($queryCollection);
