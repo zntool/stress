@@ -4,9 +4,12 @@ namespace ZnTool\Stress\Commands;
 
 use Illuminate\Support\Collection;
 use ZnCore\Domain\Helpers\EntityHelper;
+use ZnCrypt\Base\Domain\Libs\Encoders\CollectionEncoder;
 use ZnLib\Console\Symfony4\Question\ChoiceQuestion;
 use ZnTool\Stress\Domain\Entities\ProfileEntity;
+use ZnTool\Stress\Domain\Entities\ResultEntity;
 use ZnTool\Stress\Domain\Entities\TestEntity;
+use ZnTool\Stress\Domain\Helpers\RuntimeHelper;
 use ZnTool\Stress\Domain\Libs\Runtime;
 use ZnTool\Stress\Domain\Repositories\Conf\ProfileRepository;
 use ZnTool\Stress\Domain\Services\StressService;
@@ -53,29 +56,23 @@ class StressCommand extends Command
                 echo "   {$testEntity->getUrl()}\n";
             }
 
-            $totalQueryCount = 0;
-            $commonRuntime = 0;
+            $all = new Collection;
             for ($i = 0; $i < $profileEntity->getAgeCount(); $i++) {
                 $runtimeCollection = $this->stressService->testAge($queryCollection);
-
-                /**
-                 * @var Runtime[] $runtimeCollection
-                 */
-                $localRuntime = 0;
-                foreach ($runtimeCollection as $rt) {
-                    $localRuntime = $localRuntime + $rt->getResult();
-                }
-                $commonRuntime += $localRuntime;
-                $totalQueryCount += count($queryCollection);
+                $all->add($runtimeCollection);
             }
 
-            $queryRuntime = $commonRuntime / $totalQueryCount;
+            $resultEntity = new ResultEntity();
+            $resultEntity->runtime = RuntimeHelper::calcRuntime($all, $queryCollection);
+            $resultEntity->queryCount = $profileEntity->getSynchQueryCount() * $profileEntity->getAgeCount();
+
+            $queryRuntime = $resultEntity->runtime / $resultEntity->queryCount;
 
             $output->writeln([
                 '',
                 '<fg=green>Stress success!</>',
-                '<fg=green>Total runtime: ' . round($commonRuntime, 4) . '</>',
-                '<fg=green>Query count: ' . $totalQueryCount . '</>',
+                '<fg=green>Total runtime: ' . round($resultEntity->runtime, 4) . '</>',
+                '<fg=green>Query count: ' . $resultEntity->queryCount . '</>',
                 '<fg=green>Query runtime: ' . round($queryRuntime, 4) . '</>',
                 '<fg=green>Performance: ' . round(1 / $queryRuntime) . ' queries per second</>',
                 '',
