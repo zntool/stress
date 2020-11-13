@@ -47,7 +47,11 @@ class StressCommand extends Command
                 $testEntity = EntityHelper::createEntity(TestEntity::class, $query);
                 $queryCollection->add($testEntity);
             }
-            $runtimeCollection = $this->stressService->test($queryCollection);
+//            $runtimeCollection = $this->stressService->test($queryCollection);
+            echo "All queries\n";
+            foreach ($queryCollection as $i => $testEntity) {
+                echo "   {$testEntity->getUrl()}\n";
+            }
 
             $totalQueryCount = 0;
             $commonRuntime = 0;

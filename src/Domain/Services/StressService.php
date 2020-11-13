@@ -18,10 +18,7 @@ class StressService
     {
         /** @var TestEntity[] $queryCollection */
 
-        echo "All queries\n";
-        foreach ($queryCollection as $i => $testEntity) {
-            echo "   {$testEntity->getUrl()}\n";
-        }
+
 
 //        $totalQueryCount = 0;
 //        $commonRuntime = 0;
