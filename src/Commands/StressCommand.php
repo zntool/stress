@@ -37,15 +37,8 @@ class StressCommand extends Command
         $profileCollection = $this->profileRepository->all();
         $profiles = EntityHelper::getColumn($profileCollection, 'name');
 
-        if($profileCollection->count() > 1) {
-            $output->writeln('');
-            $question = new ChoiceQuestion(
-                'Select profiles',
-                $profiles,
-                'a'
-            );
-            $question->setMultiselect(true);
-            $selectedProfiles = $this->getHelper('question')->ask($input, $output, $question);
+        if ($profileCollection->count() > 1) {
+            $selectedProfiles = $this->selectProfiles($input, $output, $profiles);
         } else {
             $selectedProfiles = $profiles;
         }
@@ -79,4 +72,16 @@ class StressCommand extends Command
         return Command::SUCCESS;
     }
 
+    private function selectProfiles(InputInterface $input, OutputInterface $output, array $profiles): array
+    {
+        $output->writeln('');
+        $question = new ChoiceQuestion(
+            'Select profiles',
+            $profiles,
+            'a'
+        );
+        $question->setMultiselect(true);
+        $selectedProfiles = $this->getHelper('question')->ask($input, $output, $question);
+        return $selectedProfiles;
+    }
 }

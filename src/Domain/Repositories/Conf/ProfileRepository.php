@@ -82,5 +82,4 @@ class ProfileRepository implements CrudRepositoryInterface
         // TODO: Implement relations() method.
     }
 
-
 }
