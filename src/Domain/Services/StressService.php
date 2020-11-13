@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnTool\Dev\Runtime\Domain\Helpers\Benchmark;
 use ZnTool\Stress\Domain\Entities\ResultEntity;
+use ZnTool\Stress\Domain\Entities\TestEntity;
 use ZnTool\Stress\Domain\Libs\Runtime;
 use function GuzzleHttp\Promise\settle;
 
@@ -19,9 +20,11 @@ class StressService
         $commonRuntime = 0;
         $resultEntity = new ResultEntity;
 
+        /** @var TestEntity[] $queryCollection */
+
         echo "All queries\n";
         foreach ($queryCollection as $i => $testEntity) {
-            echo "   {$testEntity->url}\n";
+            echo "   {$testEntity->getUrl()}\n";
         }
         
         for ($i = 0; $i < $ageCount; $i++) {
@@ -42,9 +45,13 @@ class StressService
             ],*/
         ];
         $promises = [];
+        /**
+         * @var  $i
+         * @var TestEntity $testEntity
+         */
         foreach ($queryCollection as $i => $testEntity) {
-            $clientMethodName = $testEntity->method . 'Async';
-            $async = $client->$clientMethodName($testEntity->url, $options);
+            $clientMethodName = $testEntity->getMethod() . 'Async';
+            $async = $client->$clientMethodName($testEntity->getUrl(), $options);
             $promises['query_' . $i] = $async;
         }
 

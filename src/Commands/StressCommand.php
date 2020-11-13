@@ -31,17 +31,10 @@ class StressCommand extends Command
     {
         $output->writeln(['<fg=white># Stress test</>']);
 
-        /*$profileArray = include __DIR__ . '/../Domain/example/scenario.php';
-
-        $profileCollection = EntityHelper::createEntityCollection(ProfileEntity::class, $profileArray);*/
         $profileCollection = $this->profileRepository->all();
         $profiles = EntityHelper::getColumn($profileCollection, 'name');
 
-        if ($profileCollection->count() > 1) {
-            $selectedProfiles = $this->selectProfiles($input, $output, $profiles);
-        } else {
-            $selectedProfiles = $profiles;
-        }
+        $selectedProfiles = $this->selectProfiles($input, $output, $profiles);
 
         foreach ($selectedProfiles as $selectedProfile) {
             $profileEntity = $this->profileRepository->oneByName($selectedProfile);
@@ -50,10 +43,7 @@ class StressCommand extends Command
             for ($i = 0; $i < $profileEntity->getSynchQueryCount(); $i++) {
                 $index = $i % $profileEntity->getQueryCollectionCount();
                 $query = $profileEntity->getQueryByIndex($index);
-                $testEntity = new TestEntity;
-                $testEntity->url = $query['url'];
-                $testEntity->options = $query['options'] ?: [];
-                $testEntity->method = $query['method'] ?: 'get';
+                $testEntity = EntityHelper::createEntity(TestEntity::class, $query);
                 $queryCollection->add($testEntity);
             }
             $resultEntity = $this->stressService->test($queryCollection, $profileEntity->getAgeCount());
@@ -74,6 +64,9 @@ class StressCommand extends Command
 
     private function selectProfiles(InputInterface $input, OutputInterface $output, array $profiles): array
     {
+        if (count($profiles) < 2) {
+            return $profiles;
+        }
         $output->writeln('');
         $question = new ChoiceQuestion(
             'Select profiles',
