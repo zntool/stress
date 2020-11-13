@@ -12,16 +12,11 @@ class RuntimeHelper
     public static function calcRuntime(Collection $all, $queryCollection)
     {
         $localRuntime = 0;
-
         foreach ($all as $runtimeCollection) {
-            /**
-             * @var Runtime[] $runtimeCollection
-             */
+            /** @var Runtime[] $runtimeCollection */
             foreach ($runtimeCollection as $rt) {
                 $localRuntime = $localRuntime + $rt->getResult();
             }
-//            $resultEntity->incrementQueryCount(count($runtimeCollection));
-            //$resultEntity->incrementRuntime($localRuntime);
         }
         return $localRuntime;
     }
