@@ -14,35 +14,6 @@ use function GuzzleHttp\Promise\settle;
 class StressService
 {
 
-    public function test(Collection $queryCollection): Collection
-    {
-        /** @var TestEntity[] $queryCollection */
-
-
-
-//        $totalQueryCount = 0;
-//        $commonRuntime = 0;
-//        for ($i = 0; $i < $ageCount; $i++) {
-//            $runtimeCollection = $this->testAge($queryCollection);
-//
-//            /**
-//             * @var Runtime[] $runtimeCollection
-//             */
-//            $localRuntime = 0;
-//            foreach ($runtimeCollection as $rt) {
-//                $localRuntime = $localRuntime + $rt->getResult();
-//            }
-//            $commonRuntime += $localRuntime;
-//            $totalQueryCount += count($queryCollection);
-//        }
-
-
-//        $resultEntity = new ResultEntity;
-//        $resultEntity->runtime = $commonRuntime;
-//        $resultEntity->queryCount = $totalQueryCount;
-        return $queryCollection;
-    }
-
     public function testAge(Collection $queryCollection): Collection
     {
         $client = new Client;
@@ -66,14 +37,14 @@ class StressService
         $runtimeCollection = new Collection();
         $runtime = new Runtime();
         $runtime->start();
-        echo "send {$queryCollection->count()} queries ... ";
+//        echo "send {$queryCollection->count()} queries ... ";
         //$results = unwrap($promises); // Дождаться завершения всех запросов. Выдает исключение ConnectException если какой-либо из запросов не выполнен
         $results = settle($promises)->wait(); // Дождемся завершения запросов, даже если некоторые из них завершатся неудачно
         $runtime->stop();
         $runtimeCollection->add($runtime);
-        $runTimePerQuery = $runtime->getResult() / $queryCollection->count();
-        $runTimePerQuery = round($runTimePerQuery, 4);
-        echo "OK ($runTimePerQuery)\n";
+//        $runTimePerQuery = $runtime->getResult() / $queryCollection->count();
+//        $runTimePerQuery = round($runTimePerQuery, 4);
+//        echo "OK ($runTimePerQuery)\n";
 
         $this->checkErrors($results);
         return $runtimeCollection;

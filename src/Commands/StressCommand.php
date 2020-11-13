@@ -43,30 +43,26 @@ class StressCommand extends Command
         foreach ($selectedProfiles as $selectedProfile) {
             $profileEntity = $this->profileRepository->oneByName($selectedProfile);
             /** @var TestEntity[] $queryCollection */
-            $queryCollection = new Collection;
-            for ($i = 0; $i < $profileEntity->getSynchQueryCount(); $i++) {
-                $index = $i % $profileEntity->getQueryCollectionCount();
-                $query = $profileEntity->getQueryByIndex($index);
-                $testEntity = EntityHelper::createEntity(TestEntity::class, $query);
-                $queryCollection->add($testEntity);
-            }
-//            $runtimeCollection = $this->stressService->test($queryCollection);
-            echo "All queries\n";
-            foreach ($queryCollection as $i => $testEntity) {
-                echo "   {$testEntity->getUrl()}\n";
-            }
+            $queryCollection = $this->forgeQueryCollection($profileEntity);
+
+            $this->showQueryList($input, $output, $queryCollection);
 
             $all = new Collection;
             for ($i = 0; $i < $profileEntity->getAgeCount(); $i++) {
+                $output->write(".");
                 $runtimeCollection = $this->stressService->testAge($queryCollection);
                 $all->add($runtimeCollection);
             }
 
             $resultEntity = new ResultEntity();
-            $resultEntity->runtime = RuntimeHelper::calcRuntime($all, $queryCollection);
+            $resultEntity->runtime = RuntimeHelper::sunOfTree($all);
             $resultEntity->queryCount = $profileEntity->getSynchQueryCount() * $profileEntity->getAgeCount();
 
             $queryRuntime = $resultEntity->runtime / $resultEntity->queryCount;
+
+            foreach ($all as $item) {
+
+            }
 
             $output->writeln([
                 '',
@@ -79,6 +75,28 @@ class StressCommand extends Command
             ]);
         }
         return Command::SUCCESS;
+    }
+
+    private function forgeQueryCollection(ProfileEntity $profileEntity): Collection
+    {
+        $queryCollection = new Collection;
+        for ($i = 0; $i < $profileEntity->getSynchQueryCount(); $i++) {
+            $index = $i % $profileEntity->getQueryCollectionCount();
+            $query = $profileEntity->getQueryByIndex($index);
+            $testEntity = EntityHelper::createEntity(TestEntity::class, $query);
+            $queryCollection->add($testEntity);
+        }
+        return $queryCollection;
+    }
+
+    private function showQueryList(InputInterface $input, OutputInterface $output, $queryCollection)
+    {
+        $output->writeln("All queries");
+        foreach ($queryCollection as $i => $testEntity) {
+            $method = mb_strtoupper($testEntity->getMethod());
+            $output->writeln("   {$method} {$testEntity->getUrl()}");
+        }
+        $output->writeln("");
     }
 
     private function selectProfiles(InputInterface $input, OutputInterface $output, array $profiles): array
