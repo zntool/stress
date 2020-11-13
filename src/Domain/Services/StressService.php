@@ -14,29 +14,39 @@ use function GuzzleHttp\Promise\settle;
 class StressService
 {
 
-    public function test(Collection $queryCollection, int $ageCount): ResultEntity
+    public function test(Collection $queryCollection): Collection
     {
-        $totalQueryCount = 0;
-        $commonRuntime = 0;
-        $resultEntity = new ResultEntity;
-
         /** @var TestEntity[] $queryCollection */
 
         echo "All queries\n";
         foreach ($queryCollection as $i => $testEntity) {
             echo "   {$testEntity->getUrl()}\n";
         }
-        
-        for ($i = 0; $i < $ageCount; $i++) {
-            $commonRuntime += $this->testAge($queryCollection);
-            $totalQueryCount += count($queryCollection);
-        }
-        $resultEntity->runtime = $commonRuntime;
-        $resultEntity->queryCount = $totalQueryCount;
-        return $resultEntity;
+
+//        $totalQueryCount = 0;
+//        $commonRuntime = 0;
+//        for ($i = 0; $i < $ageCount; $i++) {
+//            $runtimeCollection = $this->testAge($queryCollection);
+//
+//            /**
+//             * @var Runtime[] $runtimeCollection
+//             */
+//            $localRuntime = 0;
+//            foreach ($runtimeCollection as $rt) {
+//                $localRuntime = $localRuntime + $rt->getResult();
+//            }
+//            $commonRuntime += $localRuntime;
+//            $totalQueryCount += count($queryCollection);
+//        }
+
+
+//        $resultEntity = new ResultEntity;
+//        $resultEntity->runtime = $commonRuntime;
+//        $resultEntity->queryCount = $totalQueryCount;
+        return $queryCollection;
     }
 
-    private function testAge(Collection $queryCollection): float
+    public function testAge(Collection $queryCollection): Collection
     {
         $client = new Client;
         $options = [
@@ -68,13 +78,8 @@ class StressService
         $runTimePerQuery = round($runTimePerQuery, 4);
         echo "OK ($runTimePerQuery)\n";
 
-        $localRuntime = 0;
-        foreach ($runtimeCollection as $rt) {
-            $localRuntime = $localRuntime + $rt->getResult();
-        }
-
         $this->checkErrors($results);
-        return $localRuntime;
+        return $runtimeCollection;
     }
 
     private function checkErrors(array $results)

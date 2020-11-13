@@ -7,6 +7,7 @@ use ZnCore\Domain\Helpers\EntityHelper;
 use ZnLib\Console\Symfony4\Question\ChoiceQuestion;
 use ZnTool\Stress\Domain\Entities\ProfileEntity;
 use ZnTool\Stress\Domain\Entities\TestEntity;
+use ZnTool\Stress\Domain\Libs\Runtime;
 use ZnTool\Stress\Domain\Repositories\Conf\ProfileRepository;
 use ZnTool\Stress\Domain\Services\StressService;
 use Symfony\Component\Console\Command\Command;
@@ -46,14 +47,31 @@ class StressCommand extends Command
                 $testEntity = EntityHelper::createEntity(TestEntity::class, $query);
                 $queryCollection->add($testEntity);
             }
-            $resultEntity = $this->stressService->test($queryCollection, $profileEntity->getAgeCount());
-            $queryRuntime = $resultEntity->runtime / $resultEntity->queryCount;
+            $runtimeCollection = $this->stressService->test($queryCollection);
+
+            $totalQueryCount = 0;
+            $commonRuntime = 0;
+            for ($i = 0; $i < $profileEntity->getAgeCount(); $i++) {
+                $runtimeCollection = $this->stressService->testAge($queryCollection);
+
+                /**
+                 * @var Runtime[] $runtimeCollection
+                 */
+                $localRuntime = 0;
+                foreach ($runtimeCollection as $rt) {
+                    $localRuntime = $localRuntime + $rt->getResult();
+                }
+                $commonRuntime += $localRuntime;
+                $totalQueryCount += count($queryCollection);
+            }
+
+            $queryRuntime = $commonRuntime / $totalQueryCount;
 
             $output->writeln([
                 '',
                 '<fg=green>Stress success!</>',
-                '<fg=green>Total runtime: ' . round($resultEntity->runtime, 4) . '</>',
-                '<fg=green>Query count: ' . $resultEntity->queryCount . '</>',
+                '<fg=green>Total runtime: ' . round($commonRuntime, 4) . '</>',
+                '<fg=green>Query count: ' . $totalQueryCount . '</>',
                 '<fg=green>Query runtime: ' . round($queryRuntime, 4) . '</>',
                 '<fg=green>Performance: ' . round(1 / $queryRuntime) . ' queries per second</>',
                 '',
