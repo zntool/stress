@@ -26,7 +26,11 @@ class Runtime
         return $this->stopTime;
     }
 
-    public function getResult() {
-        return $this->stopTime - $this->startTime;
+    public function getResult(int $percision = null) {
+        $result = $this->stopTime - $this->startTime;
+        if($percision !== null) {
+            $result = round($result, $percision);
+        }
+        return $result;
     }
 }

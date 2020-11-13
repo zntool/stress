@@ -48,6 +48,7 @@ class StressService
             $promises['query_' . $i] = $async;
         }
 
+        /** @var Runtime[] $runtimeCollection */
         $runtimeCollection = new Collection();
         $runtime = new Runtime();
         $runtime->start();

@@ -5,6 +5,8 @@ namespace ZnTool\Stress\Domain\Entities;
 class ProfileEntity
 {
 
+    public $title;
+    public $name;
     public $synchQueryCount = 1; // кол-во параллельных запросов
     public $ageCount = 1; // кол-во эпох теста
     public $queryCollection;
@@ -13,6 +15,26 @@ class ProfileEntity
     {
         $this->synchQueryCount = $synchQueryCount;
         $this->ageCount = $ageCount;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    public function setTitle($title): void
+    {
+        $this->title = $title;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName($name): void
+    {
+        $this->name = $name;
     }
 
     public function getSynchQueryCount(): int
