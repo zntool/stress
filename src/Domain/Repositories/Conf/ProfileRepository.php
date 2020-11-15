@@ -21,6 +21,13 @@ use function GuzzleHttp\Promise\settle;
 class ProfileRepository implements CrudRepositoryInterface
 {
 
+    private $config = [];
+
+    public function __construct(array $config)
+    {
+        $this->config = $config;
+    }
+
     public function getEntityClass(): string
     {
         return ProfileEntity::class;
@@ -48,8 +55,7 @@ class ProfileRepository implements CrudRepositoryInterface
 
     public function all(Query $query = null)
     {
-        $profileArray = include __DIR__ . '/../../../Domain/example/scenario.php';
-        $profileCollection = EntityHelper::createEntityCollection($this->getEntityClass(), $profileArray);
+        $profileCollection = EntityHelper::createEntityCollection($this->getEntityClass(), $this->config);
         return $profileCollection;
     }
 
@@ -65,12 +71,10 @@ class ProfileRepository implements CrudRepositoryInterface
 
     public function oneByName(string $name, Query $query = null): ProfileEntity
     {
-        $profileArray = include __DIR__ . '/../../../Domain/example/scenario.php';
-        //$collection = new Collection($profileArray);
         $callback = function ($item) use ($name) {
             return $item['name'] == $name;
         };
-        $item = Arr::first($profileArray, $callback);
+        $item = Arr::first($this->config, $callback);
         if(empty($item)) {
             throw new NotFoundException('Profile not found');
         }

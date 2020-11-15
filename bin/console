@@ -6,6 +6,7 @@ use ZnCore\Base\Libs\DotEnv\DotEnv;
 use Illuminate\Container\Container;
 use ZnLib\Db\Factories\ManagerFactory;
 use ZnLib\Db\Capsule\Manager;
+use ZnTool\Stress\Domain\Repositories\Conf\ProfileRepository;
 
 require __DIR__ . '/../../../autoload.php';
 DotEnv::init();
@@ -14,6 +15,14 @@ $container = Container::getInstance();
 $container->bind(Application::class, Application::class, true);
 $container->bind(Manager::class, function () {
     return ManagerFactory::createManagerFromEnv();
+}, true);
+$container->bind(ProfileRepository::class, function () {
+    if(empty($_ENV['STRESS_PROFILE_CONFIG'])) {
+        throw new \ZnCore\Base\Exceptions\InvalidConfigException('Empty ENV "STRESS_PROFILE_CONFIG"!');
+    }
+    $configFileName = __DIR__ . '/../../../../' . $_ENV['STRESS_PROFILE_CONFIG'];
+    $config = include ($configFileName);
+    return new ProfileRepository($config);
 }, true);
 $application = $container->get(Application::class);
 

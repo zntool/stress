@@ -43,6 +43,10 @@ class StressCommand extends Command
         $profileCollection = $this->profileRepository->all();
         $profiles = EntityHelper::getColumn($profileCollection, 'name');
 
+        if(empty($profiles)) {
+            $output->writeln('<fg=yellow>Empty profiles</>');
+        }
+
         $selectedProfiles = $this->selectProfiles($input, $output, $profiles);
 
         foreach ($selectedProfiles as $profileName) {
