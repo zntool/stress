@@ -8,9 +8,11 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
+use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCrypt\Base\Domain\Libs\Encoders\CollectionEncoder;
 use ZnLib\Console\Symfony4\Question\ChoiceQuestion;
+use ZnSandbox\Sandbox\Ip\Helpers\IpHelper;
 use ZnTool\Stress\Domain\Entities\ProfileEntity;
 use ZnTool\Stress\Domain\Entities\ResultEntity;
 use ZnTool\Stress\Domain\Entities\TestEntity;
@@ -43,7 +45,7 @@ class StressCommand extends Command
         $profileCollection = $this->profileRepository->all();
         $profiles = EntityHelper::getColumn($profileCollection, 'name');
 
-        if(empty($profiles)) {
+        if (empty($profiles)) {
             $output->writeln('<fg=yellow>Empty profiles</>');
         }
 
