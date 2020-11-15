@@ -6,7 +6,7 @@ return [
     [
         'title' => 'Read only',
         'name' => 'read_only',
-        'synchQueryCount' => 20,
+        'synchQueryCount' => 10,
         'ageCount' => 5,
         'queryCollection' => [
             /*[

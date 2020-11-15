@@ -2,6 +2,11 @@
 
 namespace ZnTool\Stress\Commands;
 
+use Carbon\Carbon;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 use ZnCore\Domain\Helpers\EntityHelper;
 use ZnCrypt\Base\Domain\Libs\Encoders\CollectionEncoder;
@@ -40,8 +45,8 @@ class StressCommand extends Command
 
         $selectedProfiles = $this->selectProfiles($input, $output, $profiles);
 
-        foreach ($selectedProfiles as $selectedProfile) {
-            $profileEntity = $this->profileRepository->oneByName($selectedProfile);
+        foreach ($selectedProfiles as $profileName) {
+            $profileEntity = $this->profileRepository->oneByName($profileName);
             /** @var TestEntity[] $queryCollection */
             $queryCollection = $this->forgeQueryCollection($profileEntity);
 
@@ -59,10 +64,6 @@ class StressCommand extends Command
             $resultEntity->queryCount = $profileEntity->getSynchQueryCount() * $profileEntity->getAgeCount();
 
             $queryRuntime = $resultEntity->runtime / $resultEntity->queryCount;
-
-            foreach ($all as $item) {
-
-            }
 
             $output->writeln([
                 '',
