@@ -81,9 +81,9 @@ class ProfileRepository implements CrudRepositoryInterface
         return EntityHelper::createEntity($this->getEntityClass(), $item);
     }
 
-    public function relations()
+    /*public function _relations()
     {
         // TODO: Implement relations() method.
-    }
+    }*/
 
 }
