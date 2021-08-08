@@ -11,9 +11,9 @@ return [
     'definitions' => [],
     'singletons' => [
         Application::class => Application::class,
-        Manager::class => function () {
+        /*Manager::class => function () {
             return ManagerFactory::createManagerFromEnv();
-        },
+        },*/
         ProfileRepository::class => function () {
             if(empty($_ENV['STRESS_PROFILE_CONFIG'])) {
                 throw new \ZnCore\Base\Exceptions\InvalidConfigException('Empty ENV "STRESS_PROFILE_CONFIG"!');
