@@ -17,7 +17,7 @@ class StressService
     public function testAge(Collection $queryCollection): Collection
     {
         $client = new Client;
-        $options = [
+        $defaultOptions = [
             /*'headers' => [
                 'Accept' => 'application/json',
             ],*/
@@ -28,6 +28,11 @@ class StressService
          * @var TestEntity $testEntity
          */
         foreach ($queryCollection as $i => $testEntity) {
+            $options = $defaultOptions;
+            if($testEntity->getOptions()) {
+                $options = ArrayHelper::merge($options, $testEntity->getOptions());
+            }
+            //dd($options);
             $clientMethodName = $testEntity->getMethod() . 'Async';
             $async = $client->$clientMethodName($testEntity->getUrl(), $options);
             $promises['query_' . $i] = $async;
@@ -53,7 +58,10 @@ class StressService
     private function checkErrors(array $results)
     {
         foreach ($results as $result) {
+            /** @var \GuzzleHttp\Psr7\Response $response */
+            $response = $result['value'];
             if ($result['state'] != 'fulfilled' || ArrayHelper::getValue($result, 'reason.code') > 500) {
+                dd($response->getBody()->getContents());
                 dd($result);
                 throw new \UnexpectedValueException('Response error!');
             }
