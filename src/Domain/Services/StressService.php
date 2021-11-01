@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Collection;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnTool\Dev\Runtime\Domain\Helpers\Benchmark;
+use ZnTool\Stress\Domain\Entities\ProfileEntity;
 use ZnTool\Stress\Domain\Entities\ResultEntity;
 use ZnTool\Stress\Domain\Entities\TestEntity;
 use ZnTool\Stress\Domain\Libs\Runtime;
@@ -14,7 +15,7 @@ use function GuzzleHttp\Promise\settle;
 class StressService
 {
 
-    public function testAge(Collection $queryCollection): Collection
+    public function testAge(Collection $queryCollection, ProfileEntity $profileEntity): Collection
     {
         $client = new Client;
         $defaultOptions = [
@@ -51,19 +52,28 @@ class StressService
 //        $runTimePerQuery = round($runTimePerQuery, 4);
 //        echo "OK ($runTimePerQuery)\n";
 
-        $this->checkErrors($results);
+        $this->checkErrors($results, $profileEntity->getValidator());
         return $runtimeCollection;
     }
 
-    private function checkErrors(array $results)
+    private function checkErrors(array $results, callable $validator = null)
     {
         foreach ($results as $result) {
             /** @var \GuzzleHttp\Psr7\Response $response */
             $response = $result['value'];
-            if ($result['state'] != 'fulfilled' || ArrayHelper::getValue($result, 'reason.code') > 500) {
-                dd($response->getBody()->getContents());
-                dd($result);
-                throw new \UnexpectedValueException('Response error!');
+            if($validator !== null) {
+                $isValid = $validator($response);
+                if(!$isValid) {
+                    dd($response->getBody()->getContents());
+                    //dd($result);
+                    throw new \UnexpectedValueException('Response error!');
+                }
+            } else {
+                if ($result['state'] != 'fulfilled' || ArrayHelper::getValue($result, 'reason.code') > 500) {
+                    dd($response->getBody()->getContents());
+                    //dd($result);
+                    throw new \UnexpectedValueException('Response error!');
+                }
             }
         }
     }

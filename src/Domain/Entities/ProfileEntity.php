@@ -10,6 +10,7 @@ class ProfileEntity
     public $synchQueryCount = 1; // кол-во параллельных запросов
     public $ageCount = 1; // кол-во эпох теста
     public $queryCollection;
+    public $validator;
 
     public function __construct(int $synchQueryCount = 1, int $ageCount = 1)
     {
@@ -75,5 +76,15 @@ class ProfileEntity
     public function setQueryCollection($queryCollection): void
     {
         $this->queryCollection = $queryCollection;
+    }
+
+    public function getValidator()
+    {
+        return $this->validator;
+    }
+
+    public function setValidator($validator): void
+    {
+        $this->validator = $validator;
     }
 }

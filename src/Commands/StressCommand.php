@@ -61,7 +61,7 @@ class StressCommand extends Command
             $all = new Collection;
             for ($i = 0; $i < $profileEntity->getAgeCount(); $i++) {
                 $output->write(".");
-                $runtimeCollection = $this->stressService->testAge($queryCollection);
+                $runtimeCollection = $this->stressService->testAge($queryCollection, $profileEntity);
                 $all->add($runtimeCollection);
             }
 
