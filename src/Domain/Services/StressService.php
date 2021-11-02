@@ -28,6 +28,7 @@ class StressService
          * @var  $i
          * @var TestEntity $testEntity
          */
+        $queryCollection = $queryCollection->shuffle();
         foreach ($queryCollection as $i => $testEntity) {
             $options = $defaultOptions;
             if($testEntity->getOptions()) {
@@ -60,6 +61,10 @@ class StressService
     {
         foreach ($results as $result) {
             /** @var \GuzzleHttp\Psr7\Response $response */
+            if(empty($result['value'])) {
+                dd($result);
+            }
+
             $response = $result['value'];
             if($validator !== null) {
                 $isValid = $validator($response);
@@ -77,5 +82,4 @@ class StressService
             }
         }
     }
-
 }
