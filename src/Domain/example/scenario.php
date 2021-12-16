@@ -1,6 +1,6 @@
 <?php
 
-$baseUrl = 'http://elumiti.cd/api.php/v1/';
+$baseUrl = 'http://example.com/api.php/v1/';
 
 return [
     [
