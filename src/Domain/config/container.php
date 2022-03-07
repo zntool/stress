@@ -4,7 +4,7 @@ use Symfony\Component\Console\Application;
 use ZnCore\Base\Libs\DotEnv\DotEnv;
 use Illuminate\Container\Container;
 use ZnDatabase\Eloquent\Domain\Factories\ManagerFactory;
-use ZnLib\Db\Capsule\Manager;
+use ZnDatabase\Eloquent\Domain\Capsule\Manager;
 use ZnTool\Stress\Domain\Repositories\Conf\ProfileRepository;
 
 return [
