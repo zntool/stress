@@ -1,2 +1,3 @@
 #!/bin/sh
-php console dev:stress:test
+cd ../../../bin
+php zn dev:stress:test
