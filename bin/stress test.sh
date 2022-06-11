@@ -1,3 +1,3 @@
 #!/bin/sh
-cd ../../../bin
+cd ../../../zncore/base/bin
 php zn dev:stress:test
