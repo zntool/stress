@@ -9,6 +9,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
+use ZnCore\Base\Libs\Entity\Helpers\CollectionHelper;
 use ZnCore\Base\Libs\Entity\Helpers\EntityHelper;
 use ZnCrypt\Base\Domain\Libs\Encoders\CollectionEncoder;
 use ZnLib\Console\Symfony4\Question\ChoiceQuestion;
@@ -43,7 +44,7 @@ class StressCommand extends Command
         $output->writeln(['<fg=white># Stress test</>']);
 
         $profileCollection = $this->profileRepository->all();
-        $profiles = EntityHelper::getColumn($profileCollection, 'name');
+        $profiles = CollectionHelper::getColumn($profileCollection, 'name');
 
         if (empty($profiles)) {
             $output->writeln('<fg=yellow>Empty profiles</>');

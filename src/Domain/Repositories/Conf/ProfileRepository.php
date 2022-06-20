@@ -7,6 +7,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use ZnCore\Base\Exceptions\NotFoundException;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
+use ZnCore\Base\Libs\Entity\Helpers\CollectionHelper;
 use ZnCore\Base\Libs\Validation\Exceptions\UnprocessibleEntityException;
 use ZnCore\Base\Libs\Entity\Helpers\EntityHelper;
 use ZnCore\Contract\Domain\Interfaces\Entities\EntityIdInterface;
@@ -55,7 +56,7 @@ class ProfileRepository implements CrudRepositoryInterface
 
     public function all(Query $query = null)
     {
-        $profileCollection = EntityHelper::createEntityCollection($this->getEntityClass(), $this->config);
+        $profileCollection = CollectionHelper::create($this->getEntityClass(), $this->config);
         return $profileCollection;
     }
 
