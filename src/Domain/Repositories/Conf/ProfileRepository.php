@@ -5,6 +5,7 @@ namespace ZnTool\Stress\Domain\Repositories\Conf;
 use GuzzleHttp\Client;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Enumerable;
 use ZnCore\Base\Exceptions\NotFoundException;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Base\Libs\Entity\Helpers\CollectionHelper;
@@ -54,7 +55,7 @@ class ProfileRepository implements CrudRepositoryInterface
         // TODO: Implement deleteByCondition() method.
     }
 
-    public function all(Query $query = null)
+    public function all(Query $query = null): Enumerable
     {
         $profileCollection = CollectionHelper::create($this->getEntityClass(), $this->config);
         return $profileCollection;
