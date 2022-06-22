@@ -1,7 +1,7 @@
 <?php
 
 use Symfony\Component\Console\Application;
-use ZnCore\Base\Libs\DotEnv\DotEnv;
+use ZnCore\Base\Libs\DotEnv\Domain\Libs\DotEnv;
 use Illuminate\Container\Container;
 use ZnDatabase\Eloquent\Domain\Factories\ManagerFactory;
 use ZnDatabase\Eloquent\Domain\Capsule\Manager;
