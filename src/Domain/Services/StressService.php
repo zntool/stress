@@ -4,7 +4,7 @@ namespace ZnTool\Stress\Domain\Services;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Collection;
-use ZnCore\Base\Libs\Arr\Helpers\ArrayHelper;
+use ZnCore\Base\Arr\Helpers\ArrayHelper;
 use ZnTool\Stress\Domain\Entities\ProfileEntity;
 use ZnTool\Stress\Domain\Entities\TestEntity;
 use ZnTool\Stress\Domain\Libs\Runtime;

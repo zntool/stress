@@ -8,7 +8,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
-use ZnCore\Base\Libs\Arr\Helpers\ArrayHelper;
+use ZnCore\Base\Arr\Helpers\ArrayHelper;
 use ZnCore\Domain\Entity\Helpers\CollectionHelper;
 use ZnCore\Domain\Entity\Helpers\EntityHelper;
 use ZnCrypt\Base\Domain\Libs\Encoders\CollectionEncoder;
