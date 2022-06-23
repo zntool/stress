@@ -4,10 +4,8 @@ namespace ZnTool\Stress\Domain\Services;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Collection;
-use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
-use ZnTool\Dev\Runtime\Domain\Helpers\Benchmark;
+use ZnCore\Base\Libs\Arr\Helpers\ArrayHelper;
 use ZnTool\Stress\Domain\Entities\ProfileEntity;
-use ZnTool\Stress\Domain\Entities\ResultEntity;
 use ZnTool\Stress\Domain\Entities\TestEntity;
 use ZnTool\Stress\Domain\Libs\Runtime;
 use function GuzzleHttp\Promise\settle;
@@ -31,7 +29,7 @@ class StressService
         $queryCollection = $queryCollection->shuffle();
         foreach ($queryCollection as $i => $testEntity) {
             $options = $defaultOptions;
-            if($testEntity->getOptions()) {
+            if ($testEntity->getOptions()) {
                 $options = ArrayHelper::merge($options, $testEntity->getOptions());
             }
             //dd($options);
@@ -61,14 +59,14 @@ class StressService
     {
         foreach ($results as $result) {
             /** @var \GuzzleHttp\Psr7\Response $response */
-            if(empty($result['value'])) {
+            if (empty($result['value'])) {
                 dd($result);
             }
 
             $response = $result['value'];
-            if($validator !== null) {
+            if ($validator !== null) {
                 $isValid = $validator($response);
-                if(!$isValid) {
+                if (!$isValid) {
                     dd($response->getBody()->getContents());
                     //dd($result);
                     throw new \UnexpectedValueException('Response error!');

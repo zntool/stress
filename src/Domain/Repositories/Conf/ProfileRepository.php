@@ -2,23 +2,15 @@
 
 namespace ZnTool\Stress\Domain\Repositories\Conf;
 
-use GuzzleHttp\Client;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Enumerable;
 use ZnCore\Domain\Entity\Exceptions\NotFoundException;
-use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Domain\Entity\Helpers\CollectionHelper;
-use ZnCore\Base\Libs\Validation\Exceptions\UnprocessibleEntityException;
 use ZnCore\Domain\Entity\Helpers\EntityHelper;
 use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
-use ZnCore\Domain\Repository\Interfaces\CrudRepositoryInterface;
 use ZnCore\Domain\Query\Entities\Query;
-use ZnTool\Dev\Runtime\Domain\Helpers\Benchmark;
+use ZnCore\Domain\Repository\Interfaces\CrudRepositoryInterface;
 use ZnTool\Stress\Domain\Entities\ProfileEntity;
-use ZnTool\Stress\Domain\Entities\ResultEntity;
-use ZnTool\Stress\Domain\Libs\Runtime;
-use function GuzzleHttp\Promise\settle;
 
 class ProfileRepository implements CrudRepositoryInterface
 {
@@ -77,7 +69,7 @@ class ProfileRepository implements CrudRepositoryInterface
             return $item['name'] == $name;
         };
         $item = Arr::first($this->config, $callback);
-        if(empty($item)) {
+        if (empty($item)) {
             throw new NotFoundException('Profile not found');
         }
         return EntityHelper::createEntity($this->getEntityClass(), $item);

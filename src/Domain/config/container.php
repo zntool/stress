@@ -17,7 +17,7 @@ return [
         ProfileRepository::class => function () {
             $config = [];
             if(!isset($_ENV['STRESS_PROFILE_CONFIG'])) {
-                throw new \ZnCore\Base\Exceptions\InvalidConfigException('Empty ENV "STRESS_PROFILE_CONFIG"!');
+                throw new \ZnCore\Contract\Common\Exceptions\InvalidConfigException('Empty ENV "STRESS_PROFILE_CONFIG"!');
             }
             if(!empty($_ENV['STRESS_PROFILE_CONFIG'])) {
                 $configFileName = __DIR__ . '/../../../../../../' . $_ENV['STRESS_PROFILE_CONFIG'];
