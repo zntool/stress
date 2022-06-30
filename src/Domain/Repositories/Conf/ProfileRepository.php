@@ -17,7 +17,7 @@ use ZnTool\Stress\Domain\Entities\ProfileEntity;
 class ProfileRepository implements CrudRepositoryInterface
 {
 
-    use FindOneTrait;
+//    use FindOneTrait;
 //    use FindAllTrait;
 
     private $config = [];
@@ -63,7 +63,7 @@ class ProfileRepository implements CrudRepositoryInterface
         // TODO: Implement count() method.
     }
 
-    public function oneById($id, Query $query = null): EntityIdInterface
+    public function findOneById($id, Query $query = null): EntityIdInterface
     {
         // TODO: Implement oneById() method.
     }
