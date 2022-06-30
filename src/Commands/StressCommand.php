@@ -53,7 +53,7 @@ class StressCommand extends Command
         $selectedProfiles = $this->selectProfiles($input, $output, $profiles);
 
         foreach ($selectedProfiles as $profileName) {
-            $profileEntity = $this->profileRepository->oneByName($profileName);
+            $profileEntity = $this->profileRepository->findOneByName($profileName);
             /** @var TestEntity[] $queryCollection */
             $queryCollection = $this->forgeQueryCollection($profileEntity);
 

@@ -65,10 +65,10 @@ class ProfileRepository implements CrudRepositoryInterface
 
     public function findOneById($id, Query $query = null): EntityIdInterface
     {
-        // TODO: Implement oneById() method.
+        // TODO: Implement findOneById() method.
     }
 
-    public function oneByName(string $name, Query $query = null): ProfileEntity
+    public function findOneByName(string $name, Query $query = null): ProfileEntity
     {
         $callback = function ($item) use ($name) {
             return $item['name'] == $name;
