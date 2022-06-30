@@ -43,7 +43,7 @@ class StressCommand extends Command
     {
         $output->writeln(['<fg=white># Stress test</>']);
 
-        $profileCollection = $this->profileRepository->all();
+        $profileCollection = $this->profileRepository->findAll();
         $profiles = CollectionHelper::getColumn($profileCollection, 'name');
 
         if (empty($profiles)) {

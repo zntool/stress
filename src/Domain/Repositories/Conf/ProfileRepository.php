@@ -52,7 +52,7 @@ class ProfileRepository implements CrudRepositoryInterface
         // TODO: Implement deleteByCondition() method.
     }
 
-    public function all(Query $query = null): Enumerable
+    public function findAll(Query $query = null): Enumerable
     {
         $profileCollection = CollectionHelper::create($this->getEntityClass(), $this->config);
         return $profileCollection;
