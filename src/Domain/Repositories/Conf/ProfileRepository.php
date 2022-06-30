@@ -18,7 +18,7 @@ class ProfileRepository implements CrudRepositoryInterface
 {
 
     use FindOneTrait;
-    use FindAllTrait;
+//    use FindAllTrait;
 
     private $config = [];
 
