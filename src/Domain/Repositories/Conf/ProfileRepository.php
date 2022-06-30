@@ -4,6 +4,8 @@ namespace ZnTool\Stress\Domain\Repositories\Conf;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Enumerable;
+use ZnCore\Domain\Domain\Traits\FindAllTrait;
+use ZnCore\Domain\Domain\Traits\FindOneTrait;
 use ZnCore\Domain\Entity\Exceptions\NotFoundException;
 use ZnCore\Domain\Entity\Helpers\CollectionHelper;
 use ZnCore\Domain\Entity\Helpers\EntityHelper;
@@ -14,6 +16,9 @@ use ZnTool\Stress\Domain\Entities\ProfileEntity;
 
 class ProfileRepository implements CrudRepositoryInterface
 {
+
+    use FindOneTrait;
+    use FindAllTrait;
 
     private $config = [];
 
