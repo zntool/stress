@@ -3,7 +3,7 @@
 namespace ZnTool\Stress\Domain\Repositories\Conf;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Enumerable;
+use ZnCore\Domain\Collection\Interfaces\Enumerable;
 use ZnCore\Domain\Entity\Exceptions\NotFoundException;
 use ZnCore\Domain\Entity\Helpers\CollectionHelper;
 use ZnCore\Domain\Entity\Helpers\EntityHelper;

@@ -2,7 +2,7 @@
 
 namespace ZnTool\Stress\Domain\Helpers;
 
-use Illuminate\Support\Collection;
+use ZnCore\Domain\Collection\Libs\Collection;
 use ZnTool\Stress\Domain\Entities\ResultEntity;
 use ZnTool\Stress\Domain\Libs\Runtime;
 

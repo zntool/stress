@@ -3,7 +3,7 @@
 namespace ZnTool\Stress\Domain\Services;
 
 use GuzzleHttp\Client;
-use Illuminate\Support\Collection;
+use ZnCore\Domain\Collection\Libs\Collection;
 use ZnCore\Base\Arr\Helpers\ArrayHelper;
 use ZnTool\Stress\Domain\Entities\ProfileEntity;
 use ZnTool\Stress\Domain\Entities\TestEntity;
