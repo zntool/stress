@@ -2,7 +2,8 @@
 
 namespace ZnTool\Stress\Domain\Repositories\Conf;
 
-use Illuminate\Support\Arr;
+//use Illuminate\Support\Arr;
+use ZnCore\Base\Arr\Helpers\ArrayHelper;
 use ZnCore\Domain\Collection\Interfaces\Enumerable;
 use ZnCore\Domain\Entity\Exceptions\NotFoundException;
 use ZnCore\Domain\Entity\Helpers\CollectionHelper;
@@ -68,7 +69,7 @@ class ProfileRepository implements CrudRepositoryInterface
         $callback = function ($item) use ($name) {
             return $item['name'] == $name;
         };
-        $item = Arr::first($this->config, $callback);
+        $item = ArrayHelper::first($this->config, $callback);
         if (empty($item)) {
             throw new NotFoundException('Profile not found');
         }
