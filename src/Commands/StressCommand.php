@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use ZnCore\Domain\Collection\Interfaces\Enumerable;
 use ZnCore\Domain\Collection\Libs\Collection;
 use ZnCore\Base\Arr\Helpers\ArrayHelper;
 use ZnCore\Domain\Entity\Helpers\CollectionHelper;
@@ -85,7 +86,7 @@ class StressCommand extends Command
         return Command::SUCCESS;
     }
 
-    private function forgeQueryCollection(ProfileEntity $profileEntity): Collection
+    private function forgeQueryCollection(ProfileEntity $profileEntity): Enumerable
     {
         $queryCollection = new Collection;
         for ($i = 0; $i < $profileEntity->getSynchQueryCount(); $i++) {

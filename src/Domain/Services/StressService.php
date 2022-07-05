@@ -3,6 +3,7 @@
 namespace ZnTool\Stress\Domain\Services;
 
 use GuzzleHttp\Client;
+use ZnCore\Domain\Collection\Interfaces\Enumerable;
 use ZnCore\Domain\Collection\Libs\Collection;
 use ZnCore\Base\Arr\Helpers\ArrayHelper;
 use ZnTool\Stress\Domain\Entities\ProfileEntity;
@@ -13,7 +14,7 @@ use function GuzzleHttp\Promise\settle;
 class StressService
 {
 
-    public function testAge(Collection $queryCollection, ProfileEntity $profileEntity): Collection
+    public function testAge(Enumerable $queryCollection, ProfileEntity $profileEntity): Enumerable
     {
         $client = new Client;
         $defaultOptions = [
