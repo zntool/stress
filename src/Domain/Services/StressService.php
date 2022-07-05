@@ -3,9 +3,9 @@
 namespace ZnTool\Stress\Domain\Services;
 
 use GuzzleHttp\Client;
+use ZnCore\Base\Arr\Helpers\ArrayHelper;
 use ZnCore\Domain\Collection\Interfaces\Enumerable;
 use ZnCore\Domain\Collection\Libs\Collection;
-use ZnCore\Base\Arr\Helpers\ArrayHelper;
 use ZnTool\Stress\Domain\Entities\ProfileEntity;
 use ZnTool\Stress\Domain\Entities\TestEntity;
 use ZnTool\Stress\Domain\Libs\Runtime;

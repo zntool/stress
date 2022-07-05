@@ -3,8 +3,6 @@
 namespace ZnTool\Stress\Domain\Helpers;
 
 use ZnCore\Domain\Collection\Interfaces\Enumerable;
-use ZnCore\Domain\Collection\Libs\Collection;
-use ZnTool\Stress\Domain\Entities\ResultEntity;
 use ZnTool\Stress\Domain\Libs\Runtime;
 
 class RuntimeHelper
@@ -19,7 +17,8 @@ class RuntimeHelper
         return $localRuntime;
     }
 
-    public static function sumOfCollection($runtimeCollection) {
+    public static function sumOfCollection($runtimeCollection)
+    {
         /** @var Runtime[] $runtimeCollection */
         $localRuntime = 0;
         foreach ($runtimeCollection as $rt) {
