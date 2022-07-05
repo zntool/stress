@@ -2,6 +2,7 @@
 
 namespace ZnTool\Stress\Domain\Helpers;
 
+use ZnCore\Domain\Collection\Interfaces\Enumerable;
 use ZnCore\Domain\Collection\Libs\Collection;
 use ZnTool\Stress\Domain\Entities\ResultEntity;
 use ZnTool\Stress\Domain\Libs\Runtime;
@@ -9,7 +10,7 @@ use ZnTool\Stress\Domain\Libs\Runtime;
 class RuntimeHelper
 {
 
-    public static function sunOfTree(Collection $all)
+    public static function sunOfTree(Enumerable $all)
     {
         $localRuntime = 0;
         foreach ($all as $runtimeCollection) {
