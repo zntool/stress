@@ -3,7 +3,7 @@
 namespace ZnTool\Stress\Domain\Services;
 
 use GuzzleHttp\Client;
-use ZnCore\Base\Arr\Helpers\ArrayHelper;
+use ZnCore\Arr\Helpers\ArrayHelper;
 use ZnCore\Collection\Interfaces\Enumerable;
 use ZnCore\Collection\Libs\Collection;
 use ZnTool\Stress\Domain\Entities\ProfileEntity;

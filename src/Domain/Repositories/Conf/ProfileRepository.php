@@ -3,14 +3,14 @@
 namespace ZnTool\Stress\Domain\Repositories\Conf;
 
 //use Illuminate\Support\Arr;
-use ZnCore\Base\Arr\Helpers\ArrayHelper;
+use ZnCore\Arr\Helpers\ArrayHelper;
 use ZnCore\Collection\Interfaces\Enumerable;
 use ZnCore\Entity\Exceptions\NotFoundException;
 use ZnCore\Entity\Helpers\CollectionHelper;
 use ZnCore\Entity\Helpers\EntityHelper;
 use ZnCore\Entity\Interfaces\EntityIdInterface;
-use ZnCore\Domain\Query\Entities\Query;
-use ZnCore\Domain\Repository\Interfaces\CrudRepositoryInterface;
+use ZnCore\Query\Entities\Query;
+use ZnCore\Repository\Interfaces\CrudRepositoryInterface;
 use ZnTool\Stress\Domain\Entities\ProfileEntity;
 
 class ProfileRepository implements CrudRepositoryInterface
