@@ -2,7 +2,7 @@
 
 namespace ZnTool\Stress\Domain\Helpers;
 
-use ZnCore\Domain\Collection\Interfaces\Enumerable;
+use ZnCore\Collection\Interfaces\Enumerable;
 use ZnTool\Stress\Domain\Libs\Runtime;
 
 class RuntimeHelper

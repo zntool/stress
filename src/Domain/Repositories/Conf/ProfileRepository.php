@@ -4,11 +4,11 @@ namespace ZnTool\Stress\Domain\Repositories\Conf;
 
 //use Illuminate\Support\Arr;
 use ZnCore\Base\Arr\Helpers\ArrayHelper;
-use ZnCore\Domain\Collection\Interfaces\Enumerable;
-use ZnCore\Domain\Entity\Exceptions\NotFoundException;
-use ZnCore\Domain\Entity\Helpers\CollectionHelper;
-use ZnCore\Domain\Entity\Helpers\EntityHelper;
-use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
+use ZnCore\Collection\Interfaces\Enumerable;
+use ZnCore\Entity\Exceptions\NotFoundException;
+use ZnCore\Entity\Helpers\CollectionHelper;
+use ZnCore\Entity\Helpers\EntityHelper;
+use ZnCore\Entity\Interfaces\EntityIdInterface;
 use ZnCore\Domain\Query\Entities\Query;
 use ZnCore\Domain\Repository\Interfaces\CrudRepositoryInterface;
 use ZnTool\Stress\Domain\Entities\ProfileEntity;
