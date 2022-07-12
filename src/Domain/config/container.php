@@ -20,7 +20,7 @@ return [
                 throw new \ZnCore\Contract\Common\Exceptions\InvalidConfigException('Empty ENV "STRESS_PROFILE_CONFIG"!');
             }
             if(!empty($_ENV['STRESS_PROFILE_CONFIG'])) {
-                $configFileName = __DIR__ . '/../../../../../../' . $_ENV['STRESS_PROFILE_CONFIG'];
+                $configFileName = $_ENV['STRESS_PROFILE_CONFIG'];
                 $config = include ($configFileName);
             }
             return new ProfileRepository($config);
