@@ -10,7 +10,7 @@ use ZnCore\Entity\Helpers\CollectionHelper;
 use ZnCore\Entity\Helpers\EntityHelper;
 use ZnCore\Entity\Interfaces\EntityIdInterface;
 use ZnCore\Query\Entities\Query;
-use ZnCore\Repository\Interfaces\CrudRepositoryInterface;
+use ZnDomain\Repository\Interfaces\CrudRepositoryInterface;
 use ZnTool\Stress\Domain\Entities\ProfileEntity;
 
 class ProfileRepository implements CrudRepositoryInterface
